@@ -405,7 +405,7 @@ header.site-header.scrolled {
   background: var(--bg-card);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
-  padding: 40px 32px;
+  padding: 0;
   transition: var(--transition-normal);
   position: relative;
   overflow: hidden;
@@ -420,18 +420,47 @@ header.site-header.scrolled {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
 }
 
-.specialty-icon-box {
-  width: 64px;
-  height: 64px;
+.specialty-img-box {
+  position: relative;
+  width: 100%;
+  height: 210px;
+  overflow: hidden;
+}
+
+.specialty-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition-slow);
+}
+
+.specialty-card:hover .specialty-img-box img {
+  transform: scale(1.08);
+}
+
+.specialty-icon-overlay {
+  position: absolute;
+  bottom: -20px;
+  right: 20px;
+  width: 52px;
+  height: 52px;
   border-radius: var(--radius-sm);
-  background: rgba(203, 163, 88, 0.1);
+  background: var(--bg-secondary);
   border: 1px solid var(--border-gold);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   color: var(--accent-gold-bright);
-  margin-bottom: 28px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+  z-index: 2;
+}
+
+.specialty-card-body {
+  padding: 32px 24px 28px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .specialty-card h3 {
