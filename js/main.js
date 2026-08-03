@@ -5,6 +5,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   initHeaderScroll();
+  initSpecialtiesSlider();
   initPortfolioFilter();
   initEstimateCalculator();
   initModal();
@@ -273,4 +274,109 @@ function initContactForm() {
     alert('SL 건축디자인 상담 신청이 정상 접수되었습니다.\n담당 실장이 빠르게 안내 연락드리겠습니다.');
     form.reset();
   });
+}
+
+/* Core Specialties Carousel Slider */
+function initSpecialtiesSlider() {
+  const track = document.getElementById('specSliderTrack');
+  const prevBtn = document.getElementById('specPrevBtn');
+  const nextBtn = document.getElementById('specNextBtn');
+  const dotsContainer = document.getElementById('specSliderDots');
+  if (!track) return;
+
+  const cards = track.querySelectorAll('.specialty-card');
+  if (!cards.length) return;
+
+  let currentIndex = 0;
+
+  function getItemsPerPage() {
+    if (window.innerWidth <= 640) return 1;
+    if (window.innerWidth <= 1024) return 2;
+    return 3;
+  }
+
+  function getMaxIndex() {
+    return Math.max(0, cards.length - getItemsPerPage());
+  }
+
+  function renderDots() {
+    if (!dotsContainer) return;
+    const maxIndex = getMaxIndex();
+    dotsContainer.innerHTML = '';
+    for (let i = 0; i <= maxIndex; i++) {
+      const dot = document.createElement('div');
+      dot.className = `slider-dot ${i === currentIndex ? 'active' : ''}`;
+      dot.addEventListener('click', () => goToSlide(i));
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  function updateSlider() {
+    const maxIndex = getMaxIndex();
+    if (currentIndex > maxIndex) currentIndex = maxIndex;
+    if (currentIndex < 0) currentIndex = 0;
+
+    const firstCard = cards[0];
+    if (!firstCard) return;
+    const cardWidth = firstCard.offsetWidth + 24; // card width + gap
+    track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+
+    renderDots();
+  }
+
+  function goToSlide(index) {
+    currentIndex = index;
+    updateSlider();
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+      } else {
+        currentIndex = getMaxIndex();
+      }
+      updateSlider();
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      if (currentIndex < getMaxIndex()) {
+        currentIndex++;
+      } else {
+        currentIndex = 0;
+      }
+      updateSlider();
+    });
+  }
+
+  // Auto Play every 5s
+  let autoPlayTimer = setInterval(() => {
+    if (currentIndex < getMaxIndex()) {
+      currentIndex++;
+    } else {
+      currentIndex = 0;
+    }
+    updateSlider();
+  }, 5000);
+
+  const wrapper = document.querySelector('.specialties-slider-wrapper');
+  if (wrapper) {
+    wrapper.addEventListener('mouseenter', () => clearInterval(autoPlayTimer));
+    wrapper.addEventListener('mouseleave', () => {
+      clearInterval(autoPlayTimer);
+      autoPlayTimer = setInterval(() => {
+        if (currentIndex < getMaxIndex()) {
+          currentIndex++;
+        } else {
+          currentIndex = 0;
+        }
+        updateSlider();
+      }, 5000);
+    });
+  }
+
+  window.addEventListener('resize', updateSlider);
+  updateSlider();
 }

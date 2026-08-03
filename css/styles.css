@@ -1110,14 +1110,102 @@ footer.site-footer {
   color: #ffffff;
 }
 
+/* Specialties Slider Styles */
+.specialties-slider-wrapper {
+  position: relative;
+  width: 100%;
+  padding: 0 45px;
+}
+
+.specialties-slider-container {
+  overflow: hidden;
+  width: 100%;
+  border-radius: var(--radius-md);
+  padding: 10px 0;
+}
+
+.slider-track {
+  display: flex !important;
+  grid-template-columns: none !important;
+  gap: 24px;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.slider-track .specialty-card {
+  flex: 0 0 calc(33.333% - 16px);
+  min-width: 290px;
+}
+
+.slider-nav-btn {
+  position: absolute;
+  top: 45%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(10, 13, 20, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-gold);
+  color: var(--accent-gold-bright);
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: var(--transition-normal);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.slider-nav-btn:hover {
+  background: var(--accent-gold);
+  color: #000000;
+  box-shadow: 0 12px 30px var(--accent-gold-glow);
+}
+
+.slider-nav-btn.prev-btn {
+  left: -10px;
+}
+
+.slider-nav-btn.next-btn {
+  right: -10px;
+}
+
+.slider-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.slider-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid var(--border-light);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.slider-dot.active {
+  width: 32px;
+  border-radius: 100px;
+  background: var(--accent-gold-bright);
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 10px var(--accent-gold-glow);
+}
+
 /* Responsive Media Queries */
 @media (max-width: 1024px) {
   .hero-grid {
     grid-template-columns: 1fr;
     gap: 40px;
   }
-  .specialties-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .slider-track .specialty-card {
+    flex: 0 0 calc(50% - 12px);
   }
   .process-timeline {
     grid-template-columns: repeat(3, 1fr);
@@ -1128,6 +1216,15 @@ footer.site-footer {
 }
 
 @media (max-width: 768px) {
+  .specialties-slider-wrapper {
+    padding: 0;
+  }
+  .slider-nav-btn {
+    display: none;
+  }
+  .slider-track .specialty-card {
+    flex: 0 0 100%;
+  }
   .nav-links, .header-cta {
     display: none;
   }
@@ -1137,7 +1234,6 @@ footer.site-footer {
   .hero-text h1 {
     font-size: 2.5rem;
   }
-  .specialties-grid,
   .process-timeline,
   .contact-grid,
   .about-grid,
